@@ -155,7 +155,6 @@
                     <!-- 테이블 상단 버튼 시작-->	
 					<div style="text-align:right; margin-right:30px; margin-bottom:10px;">
 						<input type="submit" class="btn btn-primary btn-sm" value="등록" onclick="addRow()">
-						<button type="submit" class="btn btn-primary btn-sm" onclick="updateRow(this)">수정</button>
 						<button type="submit" class="btn btn-primary btn-sm" onclick="deleteRow()">삭제</button>
                     </div>
                     <!-- 테이블 상단 버튼 끝-->	
@@ -185,6 +184,7 @@
 										<td>판매중</td>
 										<td>1,500</td>
 										<td>10</td>
+										<td><button class="btn btn-outline-primary fas fa-edit" style="padding: 0rem 0.4rem; font-size: 0.7rem;" onclick="updateRow(this)">수정</button></td>
 									</tr>
 										<tr id="no4">
 										<th scope="row"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
@@ -195,6 +195,7 @@
 										<td>판매중</td>
 										<td>1,500</td>
 										<td>10</td>
+										<td><button class="btn btn-outline-primary fas fa-edit" style="padding: 0rem 0.4rem; font-size: 0.7rem;" onclick="updateRow(this)">수정</button></td>
 									</tr>
 									<tr id="no3">
 										<th scope="row"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>										
@@ -204,7 +205,8 @@
 										<td>초코케이크 1호</td>
 										<td>판매중</td>
 										<td>33,000</td>
-										<td>1</td>									
+										<td>1</td>
+										<td><button class="btn btn-outline-primary fas fa-edit" style="padding: 0rem 0.4rem; font-size: 0.7rem;" onclick="updateRow(this)">수정</button></td>									
 									</tr>
 									<tr id="no2">
 										<th scope="row"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>										
@@ -214,7 +216,8 @@
 										<td>생크림케이크 1호</td>
 										<td>판매중</td>
 										<td>33,000</td>
-										<td>1</td>									
+										<td>1</td>
+										<td><button class="btn btn-outline-primary fas fa-edit" style="padding: 0rem 0.4rem; font-size: 0.7rem;" onclick="updateRow(this)">수정</button></td>									
 									</tr>
 									<tr id="no1">
 										<th scope="row"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>										
@@ -225,6 +228,7 @@
 										<td>판매중</td>
 										<td>3,000</td>
 										<td>5</td>
+										<td><button class="btn btn-outline-primary fas fa-edit" style="padding: 0rem 0.4rem; font-size: 0.7rem;" onclick="updateRow(this)">수정</button></td>
 									</tr>								
 								</tbody>
 							</table>
@@ -325,26 +329,6 @@
     	}
 
     
-    //수정기능
-    //어차피 열제목까지 포함이니까 굳이 +1 안해도 되겠다.
-	function updateRow(btn) {
-    //체크박스 누른곳..마 ㄴ되어야하는데..그럼 체크박스를 누른 행의 id값을 가져와야할듯... 
-	  //클릭한 아이콘의 가장가까운 tr요소를 찾음.
-	  let tr = btn.closest("tr");
-
-	  let category = tr.children[3];
-	  let name = tr.children[4];
-	  let status = tr.children[5];
-	  let unitPrice = tr.children[6];
-	  let quantity = tr.children[7];
-	
-	    category.contentEditable = "true";
-	    name.contentEditable = "true";
-	   	status.contentEditable = "true";
-	   	unitPrice.contentEditable = "true";
-	   	quantity.contentEditable = "true";
-
-  }
 
     
     //번호 입력 필드의 값이 변경될 때 스타일을 변경하는 함수
@@ -409,7 +393,7 @@
 	
 	
 	
-	//수정 버튼 클릭 시 실행될 함수
+	//상품 등록 후, 등록 버튼 클릭 시 실행될 함수
 	 function addRow() {
         let inputForm = `
             <tr class="input-form" id="trCnt">
@@ -442,68 +426,55 @@
         let tableBody = document.querySelector('.table tbody');
         tableBody.insertAdjacentHTML('afterbegin', inputForm);
     }
+	
+	//수정 버튼 눌렀을 때 실행될 함수
+	 function updateRow(btn) {
+	        
+		  //클릭한 아이콘의 가장가까운 tr요소를 찾음.
+		  const tr = btn.closest("tr");
+		  //옵션 컬럼에 있는 셀은 제외해야하므로 첫번째 두번째 세번째 셀 요소를 가져옴.
+		  let category = tr.children[3];
+		  let name = tr.children[4];
+		  let status = tr.children[5];
+		  let unitPrice = tr.children[6];
+		  let quantity = tr.children[7];
 
-	/*
-    // 수정 버튼 클릭 시 실행될 함수
-    function updateRow() {
-        // 모든 체크박스 요소를 가져옵니다.
-        const checkboxes = document.querySelectorAll('.table tbody .form-check-input');
+		  //첫번째 셀의 contenteditable 속성이 true라면.(나머지 셀들의 속성 동일)
+		  if (category.contentEditable === "true") {
+		    //셀들의 속성 false로 모두 변경
+		    category.contentEditable = "false";
+		    name.contentEditable = "false";
+		    status.contentEditable = "false";
+		    unitPrice.contentEditable = "false";
+		    quantity.contentEditable = "false";
+		    //저장 된 상태이므로 아이콘 수정으로 변경.
+		    btn.innerText = "수정";
+		    //font awesome으로 아이콘 변경.
+		    btn.classList.add("fa-edit");
+		    btn.classList.remove("fa-save");
+		    
+		    unitPrice.innerText = formatCurrency(unitPrice.innerText);
+		 //첫번째 셀의 contenteditable 속성이 false라면(나머지 셀들의 속성 동일)
+		  } else {
+		  
+		    //각 셀들의 contenteditable 속성 true로 모두 변경하여 수정 가능하게 함
+		    category.contentEditable = "true";
+		    name.contentEditable = "true";
+		    status.contentEditable = "true";
+		    unitPrice.contentEditable = "true";
+		    quantity.contentEditable = "true";
+		    //저장으로 텍스트 변경.
+		    btn.innerText = "저장";
+		    //아이콘 변경
+		    btn.classList.remove("fa-edit");
+		    btn.classList.add("fa-save"); 
+		    //첫번째 셀에 포커스를 줘서 상태 변경에 대해 알림.
+		    firstcell.focus();
+		    
+		  }
+		}
 
-        // 선택된 체크박스가 하나인지 확인합니다.
-        let selectedCount = 0;
-        let selectedRow;
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedCount++;
-                selectedRow = checkbox.closest('tr');
-            }
-        });
-
-        // 선택된 체크박스가 하나가 아니면 수정할 행을 선택하도록 메시지를 표시합니다.
-        if (selectedCount !== 1) {
-            alert('수정할 행을 선택하세요.');
-            return;
-        }
-
-        // 선택된 행의 정보를 가져와서 입력 폼에 표시합니다.
-        const cells = selectedRow.querySelectorAll('td');
-        const inputs = document.querySelectorAll('.input-form input[type="text"]');
-        inputs[0].value = cells[3].textContent; // 상품명
-        inputs[1].value = cells[4].textContent; // 이름
-        inputs[2].value = cells[5].textContent; // 판매일시
-        inputs[3].value = cells[6].textContent; // 주소
-        inputs[4].value = cells[7].textContent; // 연락처
-        inputs[5].value = cells[8].textContent; // 수량
-        inputs[6].value = cells[9].textContent; // 판매금액
-        inputs[7].value = cells[10].textContent; // 요청사항
-        inputs[8].value = cells[11].textContent; // 주문상태
-
-        // 등록 버튼을 수정 버튼으로 변경합니다.
-        const submitButton = document.querySelector('.input-form button');
-        submitButton.textContent = '수정 완료';
-        submitButton.onclick = function() {
-            // 선택된 행을 사용자가 입력한 값으로 업데이트합니다.
-            cells[3].textContent = inputs[0].value; // 상품명
-            cells[4].textContent = inputs[1].value; // 이름
-            cells[5].textContent = inputs[2].value; // 판매일시
-            cells[6].textContent = inputs[3].value; // 주소
-            cells[7].textContent = inputs[4].value; // 연락처
-            cells[8].textContent = inputs[5].value; // 수량
-            cells[9].textContent = inputs[6].value; // 판매금액
-            cells[10].textContent = inputs[7].value; // 요청사항
-            cells[11].textContent = inputs[8].value; // 주문상태
-
-            // 수정 완료 후 입력 폼을 초기화합니다.
-            inputs.forEach(input => {
-                input.value = '';
-            });
-
-            // 등록 버튼으로 다시 변경합니다.
-            submitButton.textContent = '추가';
-            submitButton.onclick = submitRow;
-        };
-    }
-    */
+	
     
     
  // 삭제 버튼 클릭 시 실행될 함수

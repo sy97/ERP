@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+table {
+  border-collapse: collapse; /* 테이블 셀 간격을 없애기 위해 사용 */
+  width: 80%; /* 테이블 전체 너비 */
+  margin: auto;/*가운데 정렬*/
+}
+
+th, td {
+  border: 1px solid #ddd; /* 셀 테두리 */
+  padding: 8px; /* 셀 안쪽 여백 */
+  text-align: center; /* 텍스트 정렬 방식 */
+}
+
+th {
+  background-color: #f2f2f2; /* 헤더 배경색 */
+  color: #333; /* 헤더 글자색 */
+  font-weight: bold;/*글씨 두껍게*/
+}
+</style>
+<body>
+<table id="editableTable">
+  <thead>
+    <tr class="table-light">
+      <th>이름</th>
+      <th>나이</th>
+      <th>직업</th>
+      <th>옵션</th>
+    </tr>
+  </thead>
+  <tbody id="info">
+    <tr>
+      <td>김뫄뫄</td>
+      <td>25</td>
+      <td>학생</td>
+      <td>
+        <i class="fas fa-edit" onclick="modify_and_save(this)">수정</i>
+        <i class="fas fa-trash-alt" onclick="remove(this)">삭제</i>
+      </td>
+    </tr>
+    <tr>
+      <td>박뫄뫄</td>
+      <td>30</td>
+      <td>사무직</td>
+      <td>
+        <i class="fas fa-edit" onclick="modify_and_save(this)">수정</i>
+        <i class="fas fa-trash-alt" onclick="remove(this)">삭제</i>
+      </td>
+    </tr>
+    <tr>
+      <td contenteditable="false">이뫄뫄</td>
+      <td>21</td>
+      <td>학생</td>
+      <td>
+        <i class="fas fa-edit" onclick="modify_and_save(this)">수정</i>
+        <i class="fas fa-trash-alt" onclick="remove(this)">삭제</i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+function modify_and_save(itag) {
+	  //클릭한 아이콘의 가장가까운 tr요소를 찾음.
+	  const tr = itag.closest("tr");
+	  //옵션 컬럼에 있는 셀은 제외해야하므로 첫번째 두번째 세번째 셀 요소를 가져옴.
+	  const firstcell = tr.children[0];
+	  const secondcell = tr.children[1];
+	  const thirdcell = tr.children[2];
+
+	  //첫번째 셀의 contenteditable 속성이 true라면.(나머지 셀들의 속성 동일)
+	  if (firstcell.contentEditable === "true") {
+	    //셀들의 속성 false로 모두 변경
+	    firstcell.contentEditable = "false";
+	    secondcell.contentEditable = "false";
+	    thirdcell.contentEditable = "false";
+	    //저장 된 상태이므로 아이콘 수정으로 변경.
+	    itag.innerText = "수정";
+	    //font awesome으로 아이콘 변경.
+	    itag.classList.add("fa-edit");
+	    itag.classList.remove("fa-save");
+	 //첫번째 셀의 contenteditable 속성이 false라면(나머지 셀들의 속성 동일)
+	  } else {
+	  
+	    //각 셀들의 contenteditable 속성 true로 모두 변경하여 수정 가능하게 함
+	    firstcell.contentEditable = "true";
+	    secondcell.contentEditable = "true";
+	    thirdcell.contentEditable = "true";
+	    //저장으로 텍스트 변경.
+	    itag.innerText = "저장";
+	    //아이콘 변경
+	    itag.classList.remove("fa-edit");
+	    itag.classList.add("fa-save"); 
+	    //첫번째 셀에 포커스를 줘서 상태 변경에 대해 알림.
+	    firstcell.focus();
+	    
+	  }
+	}
+
+	function remove(itag) {
+	 //가장 가까운 tr요소 찾아서 삭제
+	  const tr = itag.closest("tr");
+	  tr.remove();
+	}
+</script>
+</body>
+</html>
