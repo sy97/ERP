@@ -1,0 +1,85 @@
+@charset "utf-8";
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table tr th {
+    background-color: rgb(221, 221, 221);
+    color: rgb(73, 73, 73);
+    height: 38px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #bdbdbd;
+}
+table tr td {
+    font-size: 14px;
+    border: 1px solid #dddddd;
+    height: 46px;
+    text-align: center;
+    color: rgb(95, 95, 95);
+    background: #fff;
+    font-size: 15px;
+    font-family: "Nanum";
+    font-weight: 600;
+}
+table tr th>button.add {
+    background: rgb(97, 97, 97);
+    color: #fff;
+    width: 50px;
+    height: 25px;
+    padding-top: 3px;
+}
+table tr td>button {
+    background: none;
+    font-weight: 600;
+    color: #272727;
+    border : 0px
+}
+button {
+    border: none;
+    outline: 0;
+}
+
+#userList input[type="text"], 
+#userList input[type="text"]:focus{
+      border : 1px solid #e7e7e7; 
+      text-align : center;
+      color: rgb(95, 95, 95);
+      font-family: "Nanum";
+      font-size : 15px;
+      font-weight : 600;
+      height : 30px;  
+      width : 85%;
+}
+#userList select, #userList select:focus{
+      border : 1px solid #e7e7e7; 
+      height : 30px;
+      width : 169px;
+      text-align : center;
+      color: rgb(95, 95, 95);
+      font-family: "Nanum";
+      font-size : 15px;
+      font-weight : 600;
+}  
+
+
+	.modal_body{
+            position:absolute;
+            top:50%; 
+        
+
+            width:400px;  
+            height:600px; 
+
+            padding:40px;  
+
+            text-align: center;
+
+            background-color: rgb(255,255,255); 
+            border-radius:10px; 
+            box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);  
+
+            transform:translateY(-50%);
+    }
+  
